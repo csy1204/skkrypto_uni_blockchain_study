@@ -17,13 +17,13 @@
 
 
 ## 2. 학습 자료
-    1. 프로그래머스: https://programmers.co.kr/learn/courses/36
-    2. 크립토좀비: https://cryptozombies.io/
-    3. 솔리디티 공식 문서: http://solidity.readthedocs.io/en/v0.4.21/
-    4. 이더리움 백서 (한글): https://github.com/ethereum/wiki/wiki/%5BKorean%5D-White-Paper
-    5. 솔리디티 예제 코드: https://github.com/wikibook/blockchain-solidity
-    6. 솔리디티 개발 도서: http://wikibook.co.kr/blockchain-solidity/
-    7. Web3.js 공식 문서: https://web3js.readthedocs.io/en/1.0/
+    1. [프로그래머스](https://programmers.co.kr/learn/courses/36)
+    2. [크립토좀비](https://cryptozombies.io/)
+    3. [솔리디티 공식 문서](http://solidity.readthedocs.io/en/v0.4.21/)
+    4. [이더리움 백서 (한글)](https://github.com/ethereum/wiki/wiki/%5BKorean%5D-White-Paper)
+    5. [솔리디티 예제 코드](https://github.com/wikibook/blockchain-solidity)
+    6. [솔리디티 개발 도서](http://wikibook.co.kr/blockchain-solidity/)
+    7. [Web3.js 공식 문서](https://web3js.readthedocs.io/en/1.0/)
 
 ## 3. 개발 계획
 
