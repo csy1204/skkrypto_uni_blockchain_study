@@ -6,6 +6,7 @@ contract ERC20Interface {
     
     function totalSupply() constant public returns (uint _supply);
     function balanceOf( address _who ) constant public returns (uint _value);
+    function transfer( address _to, uint _value) public returns (bool _success);
     function approve( address _spender, uint _value ) public returns (bool _success);
     function allowance( address _owner, address _spender ) constant public returns (uint _allowance);
     function transferFrom( address _from, address _to, uint _value) public returns (bool _success);
@@ -19,6 +20,8 @@ contract SkkCoin is ERC20Interface {
     uint private E18 = 1000000000000000000;  // Wei 계산 편하게 하기 위해서
     
 	mapping (address => uint256) public balanceOf;
+	mapping (address => mapping ( address => uint )) public approvals;
+	
 	mapping (address => int8) public blackList;
 	mapping (address => int8) public cashbackRate;
 
@@ -45,7 +48,20 @@ contract SkkCoin is ERC20Interface {
 		decimals = _decimals;
 		totalSupply = _supply * E18;
 		owner = msg.sender; //소유자 주소 설정
+
+		balanceOf[owner] = totalSupply / 10;
+
 	}
+
+    function totalSupply() constant public returns (uint) 
+    {
+        return totalSupply;
+    }
+    
+    function balanceOf(address _who) constant public returns (uint) 
+    {
+        return balanceOf[_who];
+    }
 
 	function blacklisting(address _addr) public onlyOwner {
 		blackList[_addr] = 1;
@@ -58,7 +74,7 @@ contract SkkCoin is ERC20Interface {
 
 	}
 
-	function setCashbackReate(int8 _rate) {
+	function setCashbackReate(int8 _rate) public{
 		if (_rate < 1) {
 			_rate = -1;
 		} else if (_rate > 100) {
@@ -69,7 +85,7 @@ contract SkkCoin is ERC20Interface {
 		if (_rate < 1) {
 			_rate = 0;
 		}
-		SetCashback(msg.sender, _rate);
+		emit SetCashback(msg.sender, _rate);
 
 	}
 
@@ -108,6 +124,37 @@ contract SkkCoin is ERC20Interface {
 
 	}
 
+
+    function approve(address _spender, uint _value) public returns (bool)
+    {
+        require(balanceOf[msg.sender] >= _value);
+        
+        approvals[msg.sender][_spender] = _value;
+        
+        emit Approval(msg.sender, _spender, _value);
+        
+        return true;
+    }
+    
+    function allowance(address _owner, address _spender) constant public returns (uint) 
+    {
+        return approvals[_owner][_spender];
+    }
+    
+    function transferFrom(address _from, address _to, uint _value) public returns (bool) 
+    {
+        require(balanceOf[_from] >= _value);
+        require(approvals[_from][msg.sender] >= _value);
+        
+        approvals[_from][msg.sender] = approvals[_from][msg.sender] - _value;
+        balanceOf[_from] = balanceOf[_from] - _value;
+        balanceOf[_to]  = balanceOf[_to] + _value;
+        
+        emit Transfer(_from, _to, _value);
+        
+        return true;
+        
+    }
 
 
 }
